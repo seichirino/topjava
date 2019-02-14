@@ -19,10 +19,9 @@
         <th>"Время"</th>
         <th>"Описание"</th>
         <th>"Калории"</th>
-        <th>"Превышает норму?"</th>
     </tr>
     <c:forEach items="${list}" var="item">
-        <tr>
+        <tr style="background: ${item.isExcess() ? "red" : "lightgreen"}">
             <td>
                 <fmt:parseDate value="${item.getDateTime()}" pattern="yyyy-MM-dd'T'HH:mm" dateStyle="short" var="parsedDateTime" type="both" />
                 <fmt:formatDate var="formattedDateTime" pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/>
@@ -30,17 +29,23 @@
             </td>
             <td><c:out value="${item.getDescription()}"/></td>
             <td><c:out value="${item.getCalories()}"/></td>
-            <c:choose>
-                <c:when test="${item.isExcess()}">
-                    <td style="background: red">Еще как</td>
-                </c:when>
-                <c:otherwise>
-                    <td style="background: lightgreen">Не, нормас</td>
-                </c:otherwise>
-            </c:choose>
 
         </tr>
     </c:forEach>
 </table>
+<h4>Add meal</h4>
+<table>
+    <tr>
+        <th>Date and time of yer meal</th>
+        <th>What is the description of yer meal</th>
+        <th>How many calories do you expect from yer meal</th>
+    </tr>
+    <tr>
+        <td><input type="datetime-local"/></td>
+        <td><input/></td>
+        <td><input type="number"/></td>
+    </tr>
+</table>
+<input type="submit"/>
 </body>
 </html>
