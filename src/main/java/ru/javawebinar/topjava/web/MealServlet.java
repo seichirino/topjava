@@ -2,13 +2,12 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.model.MemoryRepositoryImpl;
 import ru.javawebinar.topjava.model.Repository;
 import ru.javawebinar.topjava.util.MealsUtil;
-
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,15 +18,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MealServlet extends HttpServlet {
-
+    Repository repository;
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        repository = MemoryRepositoryImpl.getInstance();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("calling doGet in " + this.getClass().getSimpleName());
-        Repository repository = MemoryRepositoryImpl.getInstance();
+        String action = req.getParameter("action");
+        switch(action == null ? "all" : action){
+            case ("create"):
+                log.debug("calling create");
+                break;
+            case("update"):
+                log.debug("calling update");
+                break;
+            case("delete"):
+                log.debug("calling delete");
+                repository.deleteEntity(Integer.parseInt(req.getParameter("itemId")));
+                break;
+            case("all"):
+                log.debug("default call");
+                break;
+        }
         List<MealTo> mealList = MealsUtil
-                .getFilteredWithExcessByCycle(new ArrayList(repository.getTable().values())
-                        , LocalTime.MIN,LocalTime.MAX,2000);
+                .getFilteredWithExcessByCycle(new ArrayList(repository.getTable())
+                        , LocalTime.MIN,LocalTime.MAX,MealsUtil.DEFAULT_CALORIES_PER_DAY);
         req.setAttribute("list",mealList);
         RequestDispatcher rd = req.getRequestDispatcher("meals.jsp");
         rd.forward(req,resp);

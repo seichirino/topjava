@@ -18,6 +18,9 @@ import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
 
+    public static int DEFAULT_CALORIES_PER_DAY = 2000;
+
+
     public static List<MealTo> getFilteredWithExcess(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
@@ -91,6 +94,6 @@ public class MealsUtil {
     }
 
     public static MealTo createWithExcess(Meal meal, boolean excess) {
-        return new MealTo(meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
+        return new MealTo(meal.getId(),meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
     }
 }

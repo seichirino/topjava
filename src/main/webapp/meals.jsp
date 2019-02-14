@@ -29,23 +29,11 @@
             </td>
             <td><c:out value="${item.getDescription()}"/></td>
             <td><c:out value="${item.getCalories()}"/></td>
-
+            <td><a href="meals?action=update&itemId=${item.getId()}">update</a></td>
+            <td><a href="meals?action=delete&itemId=${item.getId()}">delete</a></td>
         </tr>
     </c:forEach>
 </table>
-<h4>Add meal</h4>
-<table>
-    <tr>
-        <th>Date and time of yer meal</th>
-        <th>What is the description of yer meal</th>
-        <th>How many calories do you expect from yer meal</th>
-    </tr>
-    <tr>
-        <td><input type="datetime-local"/></td>
-        <td><input/></td>
-        <td><input type="number"/></td>
-    </tr>
-</table>
-<input type="submit"/>
+<a href="meals?action=create">do an create</a>
 </body>
 </html>

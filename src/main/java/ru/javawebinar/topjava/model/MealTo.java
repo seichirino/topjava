@@ -6,7 +6,7 @@ public class MealTo {
     private final LocalDateTime dateTime;private final String description;
 
     private final int calories;
-
+    private final int id;
     private final boolean excess;
 
     public LocalDateTime getDateTime() {
@@ -25,7 +25,12 @@ public class MealTo {
         return excess;
     }
 
-    public MealTo(LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public int getId() {
+        return id;
+    }
+
+    public MealTo(int id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
