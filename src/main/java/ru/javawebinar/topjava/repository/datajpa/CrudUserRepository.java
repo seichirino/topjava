@@ -23,8 +23,12 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Transactional
     User save(User user);
 
+
+    //NOTE user picks up all meals even with LAZY initialization now
     @Override
-    Optional<User> findById(Integer id);
+    @Transactional
+    @Query("SELECT u FROM User u left join fetch u.meals WHERE u.id = :id")
+    Optional<User> findById(@Param("id") Integer id);
 
     @Override
     List<User> findAll(Sort sort);
